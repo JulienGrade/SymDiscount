@@ -17,7 +17,7 @@ class AppFixtures extends Fixture
             $product = new Product();
 
             $product->setName($faker->word)
-                    ->setContent($faker->sentence())
+                    ->setContent($faker->paragraph(4))
                     ->setPrice(mt_rand(99, 999))
                     ->setFavorite((bool)mt_rand(0,1))
                     ->setColor($faker->randomElements($array = array ('red','green','blue','orange','yellow'), $count = 2))

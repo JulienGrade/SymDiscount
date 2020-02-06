@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use App\Service\PaginationService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -15,16 +16,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/products", name="products_index")
+     * @Route("/products/{page<\d+>?1}", name="products_index")
      * @param ProductRepository $repo
+     * @param $page
+     * @param PaginationService $pagination
      * @return Response
      */
-    public function index(ProductRepository $repo)
+    public function index(ProductRepository $repo, $page, PaginationService $pagination)
     {
-        $products = $repo->findAll();
+        $pagination ->setEntityClass(Product::class)
+                    ->setPage($page);
 
         return $this->render('product/index.html.twig', [
-            'products' => $products
+            'pagination' => $pagination
         ]);
     }
 
@@ -59,4 +63,19 @@ class ProductController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * Permet d'afficher un seul produit
+     *
+     * @Route("/products/{slug}", name="products_show")
+     * @param Product $product
+     * @return Response
+     */
+    public function show(Product $product)
+    {
+        return $this->render('product/show.html.twig', [
+            'product' => $product
+        ]);
+    }
+
 }
