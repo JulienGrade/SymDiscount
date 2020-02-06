@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Repository\ProductRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -15,10 +16,16 @@ class ProductController extends AbstractController
 {
     /**
      * @Route("/products", name="products_index")
+     * @param ProductRepository $repo
+     * @return Response
      */
-    public function index()
+    public function index(ProductRepository $repo)
     {
-        return $this->render('product/index.html.twig');
+        $products = $repo->findAll();
+
+        return $this->render('product/index.html.twig', [
+            'products' => $products
+        ]);
     }
 
     /**

@@ -5,7 +5,62 @@
 {% block body %}
 
 
-<div class="example-wrapper">
+<div class="container">
     <h1>Nos produits</h1>
+    {% for product in products %}
+    <div class="row">
+        <div class="col-md-4 mt-4">
+            <div class="card bg-light mb-3">
+                <img class="card-img-top" src="{{ product.image }}" alt="Image du produit {{ product.name }}">
+                <div class="card-body">
+                    <h4 class="card-title"><a href="#" title="View Product">{{ product.name }}</a></h4>
+                    <p class="card-text">{{ product.content }}</p>
+                    <div class="row">
+                        <div class="col">
+                            <p class="btn btn-danger btn-block">{{ product.price }} &euro;</p>
+                        </div>
+                        <div class="col">
+                            <a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mt-4">
+            <div class="card bg-light mb-3">
+                <img class="card-img-top" src="{{ product.image }}" alt="Image du produit {{ product.name }}">
+                <div class="card-body">
+                    <h4 class="card-title"><a href="#" title="View Product">{{ product.name }}</a></h4>
+                    <p class="card-text">{{ product.content }}</p>
+                    <div class="row">
+                        <div class="col">
+                            <p class="btn btn-danger btn-block">{{ product.price }} &euro;</p>
+                        </div>
+                        <div class="col">
+                            <a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mt-4">
+            <div class="card bg-light mb-3">
+                <img class="card-img-top" src="{{ product.image }}" alt="Image du produit {{ product.name }}">
+                <div class="card-body">
+                    <h4 class="card-title"><a href="#" title="View Product">{{ product.name }}</a></h4>
+                    <p class="card-text">{{ product.content }}</p>
+                    <div class="row">
+                        <div class="col">
+                            <p class="btn btn-danger btn-block">{{ product.price }} &euro;</p>
+                        </div>
+                        <div class="col">
+                            <a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}
