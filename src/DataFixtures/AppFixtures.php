@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Product;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
@@ -11,9 +12,37 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+        $faker = Factory::create();
+        $genres = ['male', 'female'];
+
+        // Ici on gère les utilisateurs
+
+        $users =[];
+        for($i =1; $i <=20; $i++) {
+            $user = new User();
+
+            $genre = $faker->randomElement($genres);
+
+            $picture = 'https://randomuser.me/api/portraits/';
+            $pictureId = $faker->numberBetween(1, 99) . '.jpg';
+
+            $picture .= ($genre == 'male' ? 'men/' : 'women/') . $pictureId;
+
+            $user->setFirstName($faker->firstName($genre))
+                 ->setLastName($faker->lastName)
+                 ->setEmail($faker->email)
+                 ->setPicture($picture)
+                 ->setIntroduction($faker->sentence())
+                 ->setHash('password');
+
+            $manager->persist($user);
+            $users[] = $user;
+        }
+
+
         // Ici je gère les produits
         for($i=1; $i <= 10; $i++){
-            $faker = Factory::create();
+
             $product = new Product();
 
             $product->setName($faker->word)
