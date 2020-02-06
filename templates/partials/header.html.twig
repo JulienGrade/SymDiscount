@@ -34,12 +34,17 @@
             </form>
 
             <ul class="navbar-nav pl-3">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Connexion</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Inscription</a>
-                </li>
+                {% if app.user %}
+                    <a href="{{ path('account_logout') }}" class="nav-link">Déconnexion</a>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('account_logout') }}">Connexion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('account_register') }}">Inscription</a>
+                    </li>
+                {% endif %}
+
             </ul>
         </div>
     </div>

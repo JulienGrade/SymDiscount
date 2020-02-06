@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\PasswordUpdate;
 use App\Entity\User;
+use App\Form\PasswordUpdateType;
 use App\Form\RegistrationType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,6 +48,10 @@ class AccountController extends AbstractController
      * Permet d'afficher le formulaire d'inscription
      *
      * @Route("/register", name="account_register")
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @param UserPasswordEncoderInterface $encoder
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function register(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
@@ -71,6 +78,74 @@ class AccountController extends AbstractController
 
         return $this->render('account/registration.html.twig', [
            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Permet de modifier le mot de passe
+     *
+     * @Route("/account/password-update", name="account_password")
+     *
+     *
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @param ObjectManager $manager
+     * @return Response
+     */
+    public function updatePassword(Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $manager)
+    {
+        $passwordUpdate = new PasswordUpdate();
+
+        // On récupère l'utilisateur connecté
+        $user = $this->getUser();
+
+        // On crée le formulaire
+        $form = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
+
+        // On demande au formulaire de gérer la requete
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            // Verifie que le oldPassword est identique au password de l'user ici $user
+            if(!password_verify($passwordUpdate->getOldPassword(), $user->getHash())){
+                // Ici on gère l'erreur
+                $form->get('oldPassword')->addError(new FormError("Le mot de passe que vous avez tapez n'est pas votre mot de passe actuel !"));
+            } else {
+                // Ici on s'occupe d'enregistrer le nouveau mot de passe car conforme
+                $newPassword = $passwordUpdate->getNewPassword();
+                // Ici on encode
+                $hash = $encoder->encodePassword($user, $newPassword);
+
+                $user->setHash($hash);
+
+                $manager->persist($user);
+                $manager->flush();
+
+                $this->addFlash(
+                    'success',
+                    "Votre mot de passe a bien été modifié !"
+                );
+
+                return $this->redirectToRoute('homepage');
+            }
+        }
+
+        return $this->render('account/password.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Permet d'afficher le profil de l'utilisateur
+     *
+     * @Route("/account", name="account_index")
+     *
+     *
+     * @return Response
+     */
+    public function myAccount(){
+        return $this->render('user/index.html.twig', [
+            'user' => $this->getUser()
         ]);
     }
 }

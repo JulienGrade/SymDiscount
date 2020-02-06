@@ -26,6 +26,8 @@ class RegistrationType extends ApplicationType
                 $this->getConfiguration("Photo de profil", "URL de l'image de votre avatar"))
             ->add('hash', PasswordType::class,
                 $this->getConfiguration("Mot de passe", "Choisissez un bon mot de passe !"))
+            ->add('passwordConfirm', PasswordType::class,
+                $this->getConfiguration("Confirmation de mot de passe", "Veuillez confirmer votre mot de passe !"))
             ->add('introduction', TextType::class,
                 $this->getConfiguration("Introduction", "Vos centres d'intéret,marques,categories de produits préférées, quelques mots..."))
 
