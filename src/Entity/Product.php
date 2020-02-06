@@ -4,11 +4,11 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Cocur\Slugify\Slugify;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Product
 {
@@ -22,10 +22,7 @@ class Product
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=3,minMessage="Le titre doit comporter au moins 3 caractères")
-     * @UniqueEntity(
-     *     fields={"name"},
-     *     message = "Un autre produit porte dèjà ce nom !"
-     * )
+     *
      */
     private $name;
 
@@ -36,7 +33,7 @@ class Product
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\Length("min=10",minMessage="Votre description doit faire au moins 10 caractères")
+     * @Assert\Length(min=10,minMessage="Votre description doit faire au moins 10 caractères")
      */
     private $content;
 
@@ -88,8 +85,19 @@ class Product
         }
     }
 
+    /**
+     * Ici on gère la  date de création et le montant total de la reservation
+     *
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function prePersist(){
+        if(empty($this->createdAt)) {
+            $this->createdAt = new \DateTime();
+        }
+    }
 
-        public function getId(): ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
