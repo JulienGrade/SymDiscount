@@ -22,7 +22,7 @@
         <div class="col-12 col-lg-6 add_to_cart_block">
             <div class="card bg-light mb-3">
                 <div class="card-body">
-                    <p class="price">{{product.price}} &euro;</p>
+                    <p class="price">{{product.price | number_format(2, ',',' ')}} &euro;</p>
                     <p class="price_discounted">149.90 &euro;</p>
                     <form method="get" action="cart.html">
                         <div class="form-group">
@@ -62,14 +62,12 @@
                         </ul>
                     </div>
                     <div class="reviews_product p-3 mb-2 ">
-                        3 avis
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        (4/5)
+                        {% for comment in product.comments %}
+                        {{ product.comments | length }}
+                            {% include 'partials/rating.html.twig'
+                                with {'rating': comment.rating}%}
                         <a class="pull-right" href="#">Voir tous les avis</a>
+                        {% endfor %}
                     </div>
                     <div class="datasheet p-3 mb-2 bg-info text-white">
                         <a href="" class="text-white"><i class="fa fa-file-text"></i> Télécharger la fiche produit</a>
@@ -93,41 +91,27 @@
         </div>
 
         <!-- Reviews -->
+        {% if comment is not null %}
+            {% for comment in product.comments %}
+
         <div class="col-12" id="reviews">
             <div class="card border-light mb-3">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-comment"></i> Avis</div>
                 <div class="card-body">
                     <div class="review">
                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                        <meta itemprop="datePublished" content="01-01-2016">28 mars 2019
-
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                        par Paul Smith
+                        <meta itemprop="datePublished" content="01-01-2016">
+                        {{ comment.createdAt | date('d/m/Y H:i') }}
+                        {% include 'partials/rating.html.twig'
+                            with {'rating': comment.rating}%}
+                        par {{ comment.author.fullName }}
                         <p class="blockquote">
-                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                        <p class="mb-0">{{ comment.content }}</p>
                         </p>
                         <hr>
                     </div>
-                    <div class="review">
-                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                        <meta itemprop="datePublished" content="01-01-2016">29 mars 2019
-
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        <span class="fa fa-star" aria-hidden="true"></span>
-                        par Paul Smith
-                        <p class="blockquote">
-                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                        </p>
-                        <hr>
-                    </div>
-
+            {% endfor %}
+                </div>
                     <form action="" method="post">
                         <div class="form-group">
                             <label for="name">Nom</label>
@@ -154,6 +138,9 @@
                 </div>
             </div>
         </div>
+        {% else %}
+            <h2>Il n'y a pas encore de commentaire pour ce produit !</h2>
+        {% endif %}
     </div>
     </div>
 

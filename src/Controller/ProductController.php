@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
@@ -69,12 +70,14 @@ class ProductController extends AbstractController
      *
      * @Route("/products/{slug}", name="products_show")
      * @param Product $product
+     * @param Comment $comment
      * @return Response
      */
-    public function show(Product $product)
+    public function show(Product $product, Comment $comment)
     {
         return $this->render('product/show.html.twig', [
-            'product' => $product
+            'product' => $product,
+            'comment' => $comment
         ]);
     }
 

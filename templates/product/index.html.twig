@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <h4 class="card-title"><a href="{{ url }}" title="View Product">{{ product.name }}</a></h4>
                     <p class="card-text">{{ product.content }}</p>
-                    <h2 class="card-text text-center font-weight-bolder py-2">{{ product.price }} &euro;</h2>
+                    <h2 class="card-text text-center font-weight-bolder py-2">{{ product.price | number_format(2, ',',' ') }} &euro;</h2>
                     <div class="row">
                         <div class="col">
                             <a href="{{ url }}" class="btn btn-info btn-block">En savoir plus !</a>
