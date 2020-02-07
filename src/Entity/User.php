@@ -84,6 +84,14 @@ class User implements UserInterface
         }
     }
 
+    /**
+     * Permet de creer un nom complet prenom+nom
+     */
+    public function getFullName(){
+        return "{$this->firstName} {$this->lastName}";
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;

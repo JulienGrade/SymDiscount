@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="{{ path('products_index') }}">SymDiscount</a>
+    <div class="container-fluid">
+        <a class="navbar-brand ml-5" href="{{ path('products_index') }}">Phone-BnB</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -33,9 +33,23 @@
                 </a>
             </form>
 
-            <ul class="navbar-nav pl-3">
+            <ul class="navbar-nav float-right pl-3">
                 {% if app.user %}
-                    <a href="{{ path('account_logout') }}" class="nav-link">Déconnexion</a>
+                    <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
+                        <img src="{{ app.user.picture }}" class="avatar avatar-mini w-50 rounded-circle" alt="Avatar de {{ app.user.fullName }}"/>
+                        {{ app.user.fullName }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdownLink">
+                        <a href="{{ path('products_create') }}" class="dropdown-item">Créer une annonce</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ path('account_index') }}" class="dropdown-item">Mon compte</a>
+                        <a href="#" class="dropdown-item">Mes comentaires</a>
+                        <a href="{{ path('account_profile') }}" class="dropdown-item">Modifier mon profil</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ path('account_logout') }}" class="dropdown-item">Déconnexion</a>
+                    </div>
+                    </li>
                 {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('account_logout') }}">Connexion</a>
