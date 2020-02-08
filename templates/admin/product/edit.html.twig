@@ -1,0 +1,16 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modification du produit numéro {{ product.id }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="py-5">Modification du produit : {{ product.name }}</h1>
+
+        {{ form_start(form) }}
+
+        {{ form_widget(form) }}
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

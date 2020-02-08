@@ -8,6 +8,7 @@ use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Service\PaginationService;
 use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,6 +38,7 @@ class ProductController extends AbstractController
      * Permet de créer un produit
      *
      * @Route("/products/new", name="products_create")
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param ObjectManager $manager
      * @return RedirectResponse|Response

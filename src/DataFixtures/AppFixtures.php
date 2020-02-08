@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Comment;
 use App\Entity\Product;
+use App\Entity\Role;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -22,10 +23,26 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
-        $genres = ['male', 'female'];
+
+        // Ici nous gérons les roles
+        $adminRole = new Role();
+        $adminRole->setTitle('ROLE_ADMIN');
+        $manager->persist($adminRole);
+
+        $adminUser = new User();
+        $adminUser  ->setFirstName('Julien')
+                    ->setLastName('Grade')
+                    ->setEmail('zillyon@live.fr')
+                    ->setHash($this->encoder->encodePassword($adminUser, 'password'))
+                    ->setPicture('http://juliengrade.fr/images/profil/mini.jpg')
+                    ->setIntroduction('Je suis l\'administrateur du site et passionné de téléphonie, n\'hésitez pas à me contacter')
+                    ->addUserRole($adminRole);
+        $manager->persist($adminUser);
+
 
         // Ici on gère les utilisateurs
 
+        $genres = ['male', 'female'];
         $users =[];
         for($i =1; $i <=20; $i++) {
             $user = new User();
@@ -56,7 +73,7 @@ class AppFixtures extends Fixture
 
             $product = new Product();
 
-            $product->setName($faker->word)
+            $product->setName($faker->sentence(2))
                     ->setContent($faker->paragraph(4))
                     ->setPrice(mt_rand(99, 999))
                     ->setFavorite((bool)mt_rand(0,1))
@@ -69,7 +86,7 @@ class AppFixtures extends Fixture
             $manager->persist($product);
 
             // Gestion des comment
-            if(mt_rand(0, 1)){
+
                 $comment = new Comment();
                 $user = $faker->randomElement($users);
 
@@ -78,7 +95,7 @@ class AppFixtures extends Fixture
                          ->setAuthor($user)
                          ->setProduct($product);
                 $manager->persist($comment);
-            }
+
 
         }
         $manager->flush();
