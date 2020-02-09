@@ -21,6 +21,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
+                {% for product in ratingProducts %}
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -47,10 +48,11 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
+                {% endfor %}
             </div>
             <div class="col-12 col-md-3">
                 <div class="card">
-                    {% for product in ratingProducts %}
+                    {% for product in ratingProduct %}
                     <div class="card-header bg-success text-white text-uppercase">
                         <i class="fa fa-heart"></i> Coup de coeur
                     </div>
@@ -73,9 +75,11 @@
     </div>
 
     <div class="container mt-3">
+        {% for product in lastProducts %}
         <div class="row">
 
             <div class="col-sm">
+
                 <div class="card">
                     <div class="card-header bg-primary text-white text-uppercase">
                         <i class="fa fa-star"></i> Derniers produits
@@ -84,13 +88,13 @@
                         <div class="row">
                             <div class="col-sm">
                                 <div class="card">
-                                    <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+                                    <img class="card-img-top" src="{{ product.image }}" alt="Image du {{ product.name }}">
                                     <div class="card-body">
-                                        <h4 class="card-title"><a href="product.html" title="View Product">Produit</a></h4>
-                                        <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+                                        <h4 class="card-title"><a href="product.html" title="View Product">{{ product.name }}</a></h4>
+                                        <p class="card-text">{{ product.content }}</p>
                                         <div class="row">
                                             <div class="col">
-                                                <p class="btn btn-danger btn-block">99.00 &euro;</p>
+                                                <p class="btn btn-danger btn-block">{{product.price}} &euro;</p>
                                             </div>
                                             <div class="col">
                                                 <a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
@@ -99,65 +103,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm">
-                                <div class="card">
-                                    <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title"><a href="product.html" title="View Product">Produit</a></h4>
-                                        <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-                                        <div class="row">
-                                            <div class="col">
-                                                <p class="btn btn-danger btn-block">99.00 &euro;</p>
-                                            </div>
-                                            <div class="col">
-                                                <a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm">
-                                <div class="card">
-                                    <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title"><a href="product.html" title="View Product">Produit</a></h4>
-                                        <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-                                        <div class="row">
-                                            <div class="col">
-                                                <p class="btn btn-danger btn-block">99.00 &euro;</p>
-                                            </div>
-                                            <div class="col">
-                                                <a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm">
-                                <div class="card">
-                                    <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title"><a href="product.html" title="View Product">Produit</a></h4>
-                                        <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-                                        <div class="row">
-                                            <div class="col">
-                                                <p class="btn btn-danger btn-block">99.00 &euro;</p>
-                                            </div>
-                                            <div class="col">
-                                                <a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
+        {% endfor %}
     </div>
 
     <div class="container mt-3 mb-4">
+        {% for product in ratingProducts %}
         <div class="row">
             <div class="col-sm">
                 <div class="card">
@@ -168,13 +125,13 @@
                         <div class="row">
                             <div class="col-sm">
                                 <div class="card">
-                                    <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+                                    <img class="card-img-top" src="{{ product.image }}" alt="Image du {{ product.name }}">
                                     <div class="card-body">
-                                        <h4 class="card-title"><a href="product.html" title="View Product">Produit</a></h4>
-                                        <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+                                        <h4 class="card-title"><a href="product.html" title="View Product">{{ product.name }}</a></h4>
+                                        <p class="card-text">{{ product.note | number_format(0) }} <i class="fas fa-star"></i></p>
                                         <div class="row">
                                             <div class="col">
-                                                <p class="btn btn-danger btn-block">99.00 &euro;</p>
+                                                <p class="btn btn-danger btn-block">{{product.price}} &euro;</p>
                                             </div>
                                             <div class="col">
                                                 <a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
@@ -183,62 +140,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm">
-                                <div class="card">
-                                    <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title"><a href="product.html" title="View Product">Produit</a></h4>
-                                        <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-                                        <div class="row">
-                                            <div class="col">
-                                                <p class="btn btn-danger btn-block">99.00 &euro;</p>
-                                            </div>
-                                            <div class="col">
-                                                <a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm">
-                                <div class="card">
-                                    <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title"><a href="product.html" title="View Product">Produit</a></h4>
-                                        <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-                                        <div class="row">
-                                            <div class="col">
-                                                <p class="btn btn-danger btn-block">99.00 &euro;</p>
-                                            </div>
-                                            <div class="col">
-                                                <a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm">
-                                <div class="card">
-                                    <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title"><a href="product.html" title="View Product">Produit</a></h4>
-                                        <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-                                        <div class="row">
-                                            <div class="col">
-                                                <p class="btn btn-danger btn-block">99.00 &euro;</p>
-                                            </div>
-                                            <div class="col">
-                                                <a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

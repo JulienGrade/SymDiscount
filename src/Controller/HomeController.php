@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Service\StatsService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,10 +13,10 @@ class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="homepage")
-     * @param ObjectManager $manager
+     * @param StatsService $statsService
      * @return Response
      */
-    public function home(ObjectManager $manager)
+    public function home(StatsService $statsService)
     {
         //$users = $manager->createQuery('SELECT u FROM App\Entity\User u')->getResult();
         //$threeProducts = $manager->createQuery('')->getResult();
@@ -24,19 +25,17 @@ class HomeController extends AbstractController
 
         //$lastProducts = $manager->createQuery('')->getResult();
 
-        $ratingProducts = $manager->createQuery(
-            'SELECT AVG(c.rating) as note, p.name, p.price, p.id, p.image, p.slug, u.firstName, u.lastName
-            FROM App\Entity\Comment c
-            JOIN c.product p
-            JOIN c.author u
-            GROUP BY p
-            ORDER BY note DESC'
-        )->setMaxResults(1)->getResult();
+        $ratingProducts = $statsService->getRatings();
 
+        $ratingProduct = $statsService->getRating();
+
+        $lastProducts = $statsService->getLastProducts();
 
         return $this->render('home.html.twig', [
-            'stats'          => compact('ratingProducts'),
+            'stats'          => compact('ratingProducts', 'lastProducts', 'ratingProduct'),
             'ratingProducts' => $ratingProducts,
+            'ratingProduct' => $ratingProduct,
+            'lastProducts'   => $lastProducts
 
         ]);
 
